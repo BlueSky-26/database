@@ -87,6 +87,7 @@ git remote add localname url
 ###删除本地仓
 先删除.git文件  rm -rf .git
 再删除克隆过来的文件夹  rm -rf blue
+***若要彻底删除，可以把 .ssh 文件夹一并删除***
 同步一下  git push
 -----------------------------------
 
