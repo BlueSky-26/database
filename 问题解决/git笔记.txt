@@ -1,0 +1,102 @@
+git (版本控制 cvs svn) windows版本
+#所有的版本控制仅能跟踪到文本内容2018年12月10日 星期一 12时07分37秒 
+apt-get install git (安装)
+配置
+git config --global user.name 'yourname'
+git config --global user.email 'yourmail'
+
+创建仓库（init）本地创建空仓库
+1、创建仓库文件夹  【***注意仓库不能嵌套仓库】
+2、构建git仓库 a.进入文件夹  b.执行git init命令
+3、写代码
+*4、查看仓库工作区状态 git status
+*5、添加跟踪 git add file或*
+*6、提交操作 git commit -m '本次提交数值内容[自己写]'
+7、查看提交记录日志 git log 
+ 
+    ...
+   修改代码
+    ...
+
+   **修改完要重新加入并提交**
+     git add file或*
+     git commit -m '本次提交数值内容[自己写]'
+
+*8、版本回退 git reset --hard HEAD^
+    git reset 重置仓库工作区  --hard 强制  HEAD 代表当前版本位置  ^向前一次  -n向前n个版本
+
+*9、查看仓库提交记录 git reflog  本命令查询到的第一列为commitid
+*10、将工作区内容变更至指定版本
+    git reset --hard <commitid>[就是最前面的编号]
+
+11、git diff commitid [commitid] 比较两个版本的代码差异，若不指定后一个则比较commitid指定的版本与工作区内容之间的差异
+
+
+分支：
+    *1、git checkout -b dev 当dev分支不存在时常见dev分支并切换至该分支，若dev存在则直接切换
+    *2、git branch [branchname] 当指定分支名则创建分支，否则查看分支
+    *3、git checkout branchname 切换至branchnamme指定分支（主分支名永远为master）
+    *4、git merge branchname 将指定分支合并至当前分支
+    *5、git branch -d branchname 删除branchname指定分支（不能在分支之上删除分支|不能删除当前分支|不能删除master分支）
+
+合并冲突：解决方案1、手动修正代码  2、放弃某个分支的修改（回退）。不同分支在相同的时间段上对相同的代码进行了不同的操作。（严禁多个人或者分支同时操作同一个文件）
+
+------------------------------------------------------------------
+
+github 全世界程序员最喜欢用的公共代码仓库服务  （码云gitee）
+检查ssh-key看ssh-key是否存在（即家目录下是否存在 .ssh/id_rsd 文件）
+
+ls -a ~|grep .ssh  查看.ssh
+ls -a ~/.ssh       查看id_rsd
+
+不存在则使用创建  
+ssh-keygen -t rsa -C blue[即用户名]
+一路回车【enter】 直到出现一个图形
+
+将本地的公钥交给github
+打开id_rsa.pub文件
+cat .ssh/id_rsa.pub
+复制id_rsa.pub文件的内容
+
+
+加入github中：登录  用户下settings  选中SSH and GPG keys  选中New SSH key  Title自填  将复制内容粘贴到Key内  点Add SSH key
+
+
+使用clone命令以远端仓库为蓝本创建本地仓库
+git clone url（远程仓库地址）
+注意：使用免密操作请使用ssh格式的远端地址(网址在BlueSky-26/blue的code下右边中间绿色的Clone or download,点击即可复制。注意想要每次输入密码的话就选择use HTTPS的地址，不想每次输密码的话就使用use SSH地址)
+
+
+进入仓库  cd 仓库名
+
+设置远程服务别名
+git remote add localname url
+
+   写一个文件进来
+   git add file或*
+   git commit -m '本次提交数值内容[自己写]'
+
+本地和远程进行同步
+本地推到远端地址 git push localname
+将远程内容拉下来 git pull
+
+每日工作流程参考：pull  工作  add  commit  push
+
+
+------------------------------------
+###删除本地仓
+先删除.git文件  rm -rf .git
+再删除克隆过来的文件夹  rm -rf blue
+同步一下  git push
+-----------------------------------
+
+
+克隆others的仓库到本机命令
+git clone git@10.35.166.36:/home/xxg/桌面/pubgit
+
+
+
+
+
+
+

@@ -1,0 +1,10 @@
+###管理员身份运行###
+
+1、系统下载并安装模块
+python -m pip install 模块名
+
+2、系统升级pip
+python -m pip install --upgrade pip
+
+3、系统从指定网址下载并安装模块
+pip install PyQt5 -i https://pypi.douban.com/simple
