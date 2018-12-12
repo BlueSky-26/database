@@ -105,7 +105,7 @@ delete from <tablename> where 条件 #删除指定表中符合where子句条件�
 
 
 
-#### 5、
+#### 5、清除表内容
 
 形式一：delete table <tablename>
 
@@ -120,12 +120,6 @@ delete from <tablename> where 条件 #删除指定表中符合where子句条件�
 
 
 
-修改表的语句
-1、给表新增或者修改指定列
-alter table 
-
-
-
 ### mysql增加列，修改列名、列属性，删除列语句
 
 alter table test rename test1; --修改表名  
@@ -134,9 +128,8 @@ alter table test add  column name varchar(10); --添加表列
 
 alter table test drop  column name; --删除表列  
 
-alter table test modify address char(10) --修改表列类型  
-
-||alter table test change address address  char(40)  
+​       alter table test modify address char(10) --修改表列类型  
+​       alter table test change address address  char(40)  
 
 alter table test change  column address address1 varchar(30)--修改表列名
 
@@ -150,11 +143,170 @@ alter table test change  column address address1 varchar(30)--修改表列名
 
 
 
+### mysql 如何修改、添加、删除表主键
+
+在我们使用mysql的时候，有时会遇到须要更改或者删除mysql的主键，我们能够简单的使用alter table table_name drop primary key;来完成。以下我使用数据表table_test来作了样例。
+1、首先创建一个数据表table_test：
+create table table_test(
+`id` varchar(100) NOT NULL,
+`name` varchar(100) NOT NULL,
+PRIMARY KEY (`name`)
+)ENGINE=MyISAM DEFAULT CHARSET=gb2312;
+2、如果发现主键设置错了,应该是id是主键,但如今表里已经有好多数据了,不能删除表再重建了，仅仅能在这基础上改动表结构。
+先删除主键
+alter table table_test drop primary key;
+然后再增加主键
+alter table table_test add primary key(id);
+注:在增加主键之前,必须先把反复的id删除掉。
+
+
+
 ### 什么是外键
 
 若有两个表A、B，id是A的主键，而B中也有id字段，则id就是表B的外键，外键约束主要用来维护两个表之间数据的一致性。所以外键其实就是一张表中含有的另一张表的主键字段。
 
 A为基本表，B为信息表
+
+
+
+## 181212-week3
+
+select [column1,column2,......] 指定要显示的列
+
+from 表1 链接关键字 表2 on 表1.column=表2.column 将两张表按照关键字指定的方式以on 指定的链接进行拼接形成一个新的数据表（虚表）
+
+链接关键字：
+1.cross join  叉乘（前面表的每一行和后面表的每一行构成一个新数据）
+2.left join  左连（以左边的表为主表，主表每一行必须出现，若主表的行没有对应的从表数据，则从表位置空但会打出，若主表没有行对应从表则从表行丢弃）
+3.right join  右连（以右边的表为主表，主表每一行必须出现，若主表的行没有对应的从表数据，则从表位置空NULL，若主表没有行对应从表则从表行丢弃）
+4.inner join  内联（左右没有主从之分，没有匹配到条件则丢弃，没有on约束过滤则等价于叉乘）
+5.union  联合查询，该关键字前后分别为一个完整的select语句，其结果是将所查询的结果组成一个表输出
+
+
+
+### 通过关系表左链接
+
+select a.Name,a.Title,c.CourseName
+from Teacher a left join Tea_Cour b 
+on a.idTeacher=b.idTea left join Course c 
+​         on b.idCou=c.idCourse;
+
+
+
+select * from Student where StudentName regexp '^d';
+regexp  正则表达式 
+‘  ’里面写正则表达式
+
+
+
+### where条件
+
+>   <  >=  <=  !< !> = != <> 
+>   between and
+>   not betewwn and
+>   or 
+>   and
+>   like
+>   regexp
+>   in
+>   not in
+>   not
+
+select 聚合：max（求最大） min（求最小） sum（求和） avg（求平均） count（求数目）
+聚合使用以上聚合函数，聚合函数的参数为列名，意味这使用那个列进行聚合。
+
+
+
+### 分组
+
+group by column   分组语句在where过滤之后 直接分组不加where
+
+```mysql
+select a.Name,avg(d.score) 
+from Teacher a left join Tea_Cour b  
+on a.idTeacher=b.idTea left join Course c 
+on b.idCou=c.idCourse  left join Stu_Cour d 
+on c.idCourse=d.Cou_id 
+group by a.Name;
+```
+
+对于分组结果使用having语句进行过滤
+`注意`：除聚集计算语句(max、min、count、avg、sum)外，select语句中的每个列都必须在group by子句中给出；【因为你最后选取的字段一定是分组后有的字段才可以】
+
+
+
+### 排序
+
+order by column desc(降序)   asc(升序)
+
+
+
+### 条数限制(分页查询)
+
+limit n       显示前n条
+limit m,n  从第m+1条开始显示n条
+
+
+
+### sql查询语句格式
+
+```mysql
+select  字段1,字段2,字段3,......
+from    table 或者 table1 left join table2  .......
+[WHERE…]
+[GROUP BY…]
+[HAVING…]
+[ORDER BY…]
+[WITH OWNERACCESS OPTION]
+```
+
+
+
+#### 顺序
+
+先from-->where-->group by-->having-->order by-->limit-->select
+
+
+
+### 事务
+
+#### 数据库引擎(mysql)
+
+innodb      慢     持久化(磁盘)         支持事务       分布式        行锁     死锁问题低
+myIsam    快      持久化(磁盘)        不支持事务    少量数据    表锁     死锁问题高
+memory   最快  非持久化(内存)     不支持事务    缓存
+
+查询当前表的引擎：show create table <tablename>;
+查询DBMS支持的数据引擎：show ENGINES;
+
+
+
+#### 事务：保证数据完整性和insert  update  delete语句的执行有关
+
+同一个事务中的所有语句要不全部成功，要不都不成功
+具有的特征：
+原子性
+一致性
+隔离性
+持久性
+事务的开启：begin
+事务的回滚：rollback
+事务的提交：commit
+
+
+
+### ***补充索引：
+
+在建库的时候创建索引列
+
+create tabel <tablename>(
+...............
+name varchar(20) not null,
+index iname(name),
+...............
+)
+当创建完成之后，通过语句添加索引：create index <indexname> on <tablename>(<column[(num)]>)
+给tablename指定的表使用column列的前num个字符创建一个名为indexname的索引
 
 
 
