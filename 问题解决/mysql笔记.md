@@ -231,7 +231,16 @@ group by a.Name;
 ```
 
 对于分组结果使用having语句进行过滤
-`注意`：除聚集计算语句(max、min、count、avg、sum)外，select语句中的每个列都必须在group by子句中给出；【因为你最后选取的字段一定是分组后有的字段才可以】
+`注意`：除聚集计算语句(max、min、count、avg、sum)外，select语句中的每个列名都必须在group by子句中给出，未在这两个地方提到的列名将产生错误【因为你最后选取的字段一定是分组后有的字段才可以】
+`另外`：having后面也是对组进行操作，注意条件字段名
+
+```mysql
+SELECT DEPT, EDLEVEL, MAX( SALARY ) AS MAXIMUM
+FROM staff
+WHERE HIREDATE > '2010-01-01'
+GROUP BY DEPT, EDLEVEL
+ORDER BY DEPT, EDLEVEL
+```
 
 
 
