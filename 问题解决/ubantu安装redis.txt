@@ -1,0 +1,54 @@
+#ubantu安装redis
+sudo apt-get install redis-server
+#启动检查
+systemctl status|start|enable redis
+
+使用redis-cli命令进入redis客户端
+redis五大数据类型
+string 字符串
+set key value [ex px] 定义或者修改一个key的值为value 生存周期为ex
+定义的秒数或者px定义的毫秒数
+get key  获取key的value
+del key  删除key
+----------------------------------------
+针对可以转为数值的key，可以用incr和decr实现自增自减
+
+
+hash 哈希表(类似于我们python中的字典)
+hset key filde value  #设置一个hash的键和值
+hget key filde        #获取一个hash的键和值
+del key
+------------------------------------------
+hkey key         #获取key中的值
+hvals key        #获取key中所有的值
+hgetall key      #获取所有的键值对
+
+
+list 链表(类似于python中的列表)
+lpush|rpush key value  从链表key的左边或者右边推入一条数据
+lpop|rpop key  从链表key的左边或者右边弹出一条数据
+lrange key start stop  取出链表中从索引start开始到end结束的所有数据
+
+
+set 集合
+sadd key value1 value2 ...... 向集合中加入值value1,value2,......
+srem key value1 value2 ...... 向集合中删除值value1,value2,......
+smembers 可以                 获取key中的所有内容
+-------------------------------------------------
+sdiff set1 set2   获取set1减去set2的结果
+sinter set1 set2  获取set1与set2的交集
+sunion set1 set2  获取set1与set2的并集
+spop set1         随机从set1中弹出一个值
+
+
+zset                            有序集合
+zadd key n value n value ...... 给有序集合添加修改元素
+zrem key value                  删除集合中的value元素
+zrange|zrevrange key start stop [withscores] 取出有序集合中
+(正向|反向)从索引start开始到end结束的所有数据[并取出排序权值]
+
+-------------------------------------------------
+exprie key second  设置key所指向的数据的生命周期以妙计算
+ttl key            查询key所指向的数据的剩余生命
+persist key        清除过期时间
+del key            销毁key所指向的数据

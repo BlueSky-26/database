@@ -84,6 +84,9 @@ git remote add localname url
 
 
 ------------------------------------
+远程删除：git rm [-rf] filename
+
+
 ###删除本地仓
 先删除.git文件  rm -rf .git
 再删除克隆过来的文件夹  rm -rf blue
