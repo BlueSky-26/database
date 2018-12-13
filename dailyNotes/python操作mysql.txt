@@ -8,4 +8,56 @@ easy_install3 pip
 pip3 install pymasql
 python3 -m pip install pymysql
 
-python3 回车 import pymysql
+
+python3 回车  出现 >>> 则配置成功
+
+import pymysql
+第一步：导库
+import pymysql
+
+
+第二步：连接数据库
+conn=pymysql.connect(host='127.0.0.1',user='root',password='xxx',db='xxx',port=3306)
+127.0.0.1  <==>  localhost  两个都可以，等价效果
+
+参数说明：
+host:为数据库的主机地址，默认为localhost(等价于本机IP：127.0.0.1)
+user:为连接认证的用户的名字
+password:为连接的认证用户的密码
+db:为连接的数据库的名字
+port:为连接端口 默认3306
+
+
+第三步：创建游标对象
+游标：sursor = conn.sursor(pymysql.cursors.DicrCursor)
+注意：游标对象使用连接对象的cursor方法创建，该方法可以接受一个参数
+      来指定游标类型
+pymysql.cursors.DictCursor  字典型（查询结果的每一行数据为一个字典）
+pymysql.cursors.Cursor      元祖型（查询结果的每一行数据为一个元祖）
+
+
+第四部：执行sql语句
+sql='.......%s..%s..'
+cursor.execute(sql,(var1,var2))        #单次执行sql语句
+cursor.executemany(sql,[(var1,var2)])  #多次执行sql语句
+
+
+第五步：获取结果集
+data=cursor.fetchone()   #获取一行数据，游标位置向后移动一位
+data=cursor.fetchall()   #获取全部数据，游标位置移动到最后
+data=cursor.fetchmany()  #获取多行数据，游标位置向后移动num
+第六：进阶用法
+#光标按绝对位置移动
+cursor.scroll(1,mode='absolute')
+#光标按相对位置(当前位置)移动
+cursor.scroll(1,mode='relative')
+#获取最后一个id
+cursor.lastrowid
+
+
+第七步：关闭
+先关游标cursor.close()
+再关链接conn.close()
+
+***向sql中动态传入内容严禁使用python的字符串格式化形式实现
+
