@@ -96,7 +96,7 @@ git remote add localname url
 git clone git@10.35.166.36:/home/xxg/桌面/pubgit
 
 
-
+取消关联库的命令：git remote rm 关联库名字
 
 
 
