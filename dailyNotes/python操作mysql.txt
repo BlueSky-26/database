@@ -29,7 +29,8 @@ port:为连接端口 默认3306
 
 
 第三步：创建游标对象
-游标：sursor = conn.sursor(pymysql.cursors.DicrCursor)
+创建游标方式1：cursor = conn.sursor(pymysql.cursors.DicrCursor)
+创建游标方式2：cur2 = conn.cursor()
 注意：游标对象使用连接对象的cursor方法创建，该方法可以接受一个参数
       来指定游标类型
 pymysql.cursors.DictCursor  字典型（查询结果的每一行数据为一个字典）
@@ -58,6 +59,20 @@ cursor.lastrowid
 第七步：关闭
 先关游标cursor.close()
 再关链接conn.close()
+
+
+重点：pymysql中的sql操作具有事务性特征；所以操作完成之后需要
+使用链接的commit方法进行提交或者使用rollback进行回滚。
+关于增删该查的语句形式一般为：
+try:
+    cursor.execute('insert into Student() value()')
+	            
+				..........
+
+	conn.commit()
+except:
+    conn.rollback()
+
 
 ***向sql中动态传入内容严禁使用python的字符串格式化形式实现
 
